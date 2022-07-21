@@ -27,15 +27,24 @@ app.get('/bob',(req, res)=>{
 } catch(error){
     rollbar.info('broken callback is broken (:')
 }
+try{
+
 app.get('/css', (req, res) => {
     res.sendFile(path.join(__dirname, '../styles.css'))
 })
+}catch(error){
+    rollbar.error("stylesheet not working")
+}
 app.get('/js', (req, res) => {
     res.sendFile(path.join(__dirname, '../main.js'))
 })
 const port = process.env.PORT
 || 4005
-
+try{
 app.listen(port, ()=> {
     console.log(`server is running ${port}`)
 })
+} catch(error){
+    rollbar.critical("server stopped running")
+
+}
